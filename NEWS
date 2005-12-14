@@ -1,3 +1,9 @@
+* slot::disconnect(): Make this work.
+  sigc::connection::disconnect() already worked.
+  (James Lin, Murray Cumming)
+* visit_each compilation problem fixed.
+  (Philipp Berndt)
+
 2.0.16:
 
 * Fixed build for SUN Forte C++ 5.5
