@@ -1,3 +1,9 @@
+2005-12-20  Murray Cumming  <murrayc@murrayc.com>
+
+	* sigc++/macros/signal.h.m4: Make all operator--() methods 
+	return by reference, like the operator++() methods. 
+	Bug #304402 from John Profic.
+
 This is the libsigc-2-0 branch, for maintenance of libsigc++ 2.0.
 API/ABI-compatible API-addition happens in the HEAD branch.
 
