@@ -1,3 +1,5 @@
+2.0.17:
+
 2005-12-20  Murray Cumming  <murrayc@murrayc.com>
 
 	* sigc++/macros/signal.h.m4: Make all operator--() methods 
