@@ -2,6 +2,7 @@
 #include <sigc++/sigc++.h>
 #include <sstream>
 #include <string>
+#include <functional> //For std::ref().
 #include <cstdlib>
 
 namespace
@@ -18,7 +19,7 @@ public:
   std::string name_;
 
 private:
-  //non-copyable, so it can only be used with sigc::bind() via sigc::ref()
+  //non-copyable, so it can only be used with sigc::bind() via std::ref()
   Param(const Param&);
   Param& operator=(const Param&);
 };
@@ -44,12 +45,12 @@ int main(int argc, char* argv[])
   util->check_result(result_stream, "");
 
   {
-    //Because Param derives from sigc::trackable(), sigc::ref() should disconnect
+    //Because Param derives from sigc::trackable(), std::ref() should disconnect
     // the signal handler when param is destroyed.
     Param param("murrayc");
     // A convoluted way to do
-    // slot_bound = sigc::bind(slot_full, sigc::ref(param));
-    slot_bound = sigc::bind< -1, sigc::reference_wrapper<Param> >(slot_full, sigc::ref(param));
+    // slot_bound = sigc::bind(slot_full, std::ref(param));
+    slot_bound = sigc::bind< -1, std::reference_wrapper<Param> >(slot_full, std::ref(param));
 
     result_stream << "Calling slot when param exists:";
     slot_bound();
