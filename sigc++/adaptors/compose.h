@@ -60,8 +60,7 @@ struct compose1_functor : public adapts<T_setter>
   template <class... T_arg>
   decltype(auto)
   operator()(T_arg... _A_a)
-    { return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<sigc::deduce_result_t<T_getter, T_arg...>>
-        (get_(_A_a...));
+    { return this->functor_(get_(_A_a...));
     }
 
   /** Constructs a compose1_functor object that combines the passed functors.
@@ -114,9 +113,7 @@ struct compose2_functor : public adapts<T_setter>
   template <class... T_arg>
   decltype(auto)
   operator()(T_arg... _A_a)
-    { return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<sigc::deduce_result_t<T_getter1, T_arg...>,
-                                                         sigc::deduce_result_t<T_getter2, T_arg...>>
-        (get1_(_A_a...), get2_(_A_a...));
+    { return this->functor_(get1_(_A_a...), get2_(_A_a...));
     }
 
   /** Constructs a compose2_functor object that combines the passed functors.
