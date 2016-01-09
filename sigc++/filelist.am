@@ -26,11 +26,9 @@ functors_built_cc =
 functors_built_h = mem_fun.h
 
 # Adaptors (adaptors/)
-adaptors_m4 = bind.h.m4 \
-	      retype.h.m4
+adaptors_m4 = retype.h.m4
 adaptors_built_cc =
-adaptors_built_h = bind.h \
-                   retype.h
+adaptors_built_h = retype.h
 
 # Combine all the above parts with right directories prefixed
 sigc_m4 = $(base_m4:%=macros/%) \
@@ -58,6 +56,7 @@ sigc_public_h =				\
 	tuple_end.h \
 	tuple_for_each_const.h \
 	tuple_start.h \
+	tuple_transform_each.h \
 	type_traits.h			\
 	visit_each.h			\
 	adaptors/adaptor_base.h \

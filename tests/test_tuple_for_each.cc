@@ -142,6 +142,7 @@ void test_tuple_for_each_multiple_types()
   sigc::tuple_for_each_const<visitor_with_specializations>(t_original);
 }
 
+/*
 template <class T_element_from>
 class for_each_nonconst
 {
@@ -154,6 +155,17 @@ public:
   } 
 };
 
+void test_tuple_for_each_nonconst()
+{
+  auto t = std::make_tuple(1, 2, 3);
+  sigc::tuple_for_each<for_each_nonconst, decltype(t)&>(t);
+  std::cout << std::get<0>(t) << std::endl;
+  assert(std::get<0>(t) == 2);
+  assert(std::get<1>(t) == 4);
+  assert(std::get<2>(t) == 6);
+}
+*/
+
 int main()
 {
   test_tuple_for_each_same_types();
@@ -161,6 +173,8 @@ int main()
   test_tuple_for_each_same_types_with_nonconst_extras();
 
   test_tuple_for_each_multiple_types();
+
+  //test_tuple_for_each_nonconst();
       
   return EXIT_SUCCESS;
 }

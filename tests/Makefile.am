@@ -54,6 +54,7 @@ check_PROGRAMS = \
   test_tuple_end \
   test_tuple_for_each \
   test_tuple_start \
+  test_tuple_transform_each \
   test_visit_each
 
 TESTS = $(check_PROGRAMS)
@@ -94,4 +95,5 @@ test_tuple_cdr_SOURCES       = test_tuple_cdr.cc $(sigc_test_util)
 test_tuple_end_SOURCES       = test_tuple_end.cc $(sigc_test_util)
 test_tuple_for_each_SOURCES  = test_tuple_for_each.cc $(sigc_test_util)
 test_tuple_start_SOURCES     = test_tuple_start.cc $(sigc_test_util)
+test_tuple_transform_each_SOURCES = test_tuple_transform_each.cc $(sigc_test_util)
 test_visit_each_SOURCES      = test_visit_each.cc $(sigc_test_util)
