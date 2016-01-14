@@ -329,6 +329,9 @@ FOR(1, $1,[
     {
       typedef typed_slot_rep<T_functor> typed_slot;
       typed_slot *typed_rep = static_cast<typed_slot*>(rep);dnl
+      //TODO_variadic: Avoid the specific call to the () overload when
+      //bind_functor::operator() is variadic. Then we can make this whole class
+      //variadic, and others that use it.
 ifelse($1,0,[
       return (typed_rep->functor_)();
 ],[
