@@ -55,6 +55,10 @@ sigc_public_h =				\
 	signal_base.h			\
 	slot.h			\
 	trackable.h			\
+	tuple_cat.h \
+	tuple_cdr.h \
+	tuple_end.h \
+	tuple_start.h \
 	type_traits.h			\
 	visit_each.h			\
 	adaptors/adaptor_base.h \
