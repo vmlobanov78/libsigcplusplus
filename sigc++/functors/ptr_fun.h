@@ -50,7 +50,7 @@ namespace sigc {
  * @ingroup ptr_fun
  */
 template <class T_return, class... T_args>
-class pointer_functor : public functor_base
+class pointer_functor
 {
   using function_type = T_return (*)(T_args...);
 protected: 

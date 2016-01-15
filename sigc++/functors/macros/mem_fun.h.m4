@@ -30,7 +30,7 @@ define([MEMBER_FUNCTOR],[dnl
  * @ingroup mem_fun
  */
 template <class T_return, class T_obj, class... T_arg>
-class [$1]mem_functor : public functor_base
+class [$1]mem_functor
 {
 public:
   typedef T_return (T_obj::*function_type)(T_arg...) $3;

@@ -55,17 +55,8 @@ struct nil {};
  * and you want them to be implicitly convertible into slots, libsigc++ must know
  * the result type of your functors. There are different ways to achieve that.
  *
- * - Derive your functors from sigc::functor_base and place
- *   <tt>typedef T_return result_type;</tt> in the class definition.
  * - Use the macro SIGC_FUNCTOR_TRAIT(T_functor,T_return) in namespace sigc.
  *   Multi-type functors are only partly supported.
- * - For functors not derived from sigc::functor_base, and not specified with
- *   SIGC_FUNCTOR_TRAIT(), libsigc++ tries to deduce the result type with the
- *   C++11 decltype() specifier. That attempt usually succeeds if the functor
- *   has a single operator()(), but it fails if operator()() is overloaded.
- * - Use the macro #SIGC_FUNCTORS_HAVE_RESULT_TYPE, if you want libsigc++ to assume
- *   that result_type is defined in all user-defined or third party functors,
- *   whose result type can't be deduced in any other way.
  *
  * If all these ways to deduce the result type fail, void is assumed.
  *
@@ -146,50 +137,6 @@ struct functor_trait<T_functor, false, true>
   typedef T_functor functor_type;
 };
 #endif // DOXYGEN_SHOULD_SKIP_THIS
-
-/** Helper macro, if you want to mix user-defined and third party functors with libsigc++.
- *
- * If you want to mix functors not derived from sigc::functor_base with libsigc++, and
- * these functors define @p result_type, use this macro inside namespace sigc like so:
- * @code
- * namespace sigc { SIGC_FUNCTORS_HAVE_RESULT_TYPE }
- * @endcode
- *
- * @ingroup sigcfunctors
- */
-#define SIGC_FUNCTORS_HAVE_RESULT_TYPE                 \
-template <class T_functor>                             \
-struct functor_trait<T_functor, false, false>          \
-{                                                      \
-  typedef T_functor functor_type;                      \
-};
-
-/** Helper macro, if you want to mix user-defined and third party functors with libsigc++.
- *
- * If you want to mix functors not derived from sigc::functor_base with libsigc++, and
- * these functors don't define @p result_type, use this macro inside namespace sigc
- * to expose the return type of the functors like so:
- * @code
- * namespace sigc {
- *   SIGC_FUNCTOR_TRAIT(first_functor_type, return_type_of_first_functor_type)
- *   SIGC_FUNCTOR_TRAIT(second_functor_type, return_type_of_second_functor_type)
- *   ...
- * }
- * @endcode
- *
- * @ingroup sigcfunctors
- */
-#define SIGC_FUNCTOR_TRAIT(T_functor,T_return) \
-template <>                                    \
-struct functor_trait<T_functor, false, false>  \
-{                                              \
-  typedef T_functor functor_type;              \
-};                                             \
-template <>                                    \
-struct functor_trait<T_functor, false, true>   \
-{                                              \
-  typedef T_functor functor_type;              \
-};
 
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

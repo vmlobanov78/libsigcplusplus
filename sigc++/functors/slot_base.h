@@ -240,7 +240,7 @@ struct SIGC_API slot_do_unbind
  *
  * @ingroup slot
  */
-class SIGC_API slot_base : public functor_base
+class SIGC_API slot_base
 {
   typedef internal::slot_rep rep_type;
 

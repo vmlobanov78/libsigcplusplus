@@ -12,7 +12,7 @@ namespace
 {
 std::ostringstream result_stream;
 
-struct foo : public sigc::functor_base
+struct foo
 {
   // choose a type that can hold all return values
   typedef int result_type;
@@ -30,7 +30,7 @@ struct foo : public sigc::functor_base
   }
 };
 
-struct foo_void : public sigc::functor_base
+struct foo_void
 {
   typedef void result_type;
 
@@ -41,8 +41,6 @@ struct foo_void : public sigc::functor_base
 };
 
 } // end anonymous namespace
-
-namespace sigc { SIGC_FUNCTOR_TRAIT(foo,bool) }
 
 int main(int argc, char* argv[])
 {
