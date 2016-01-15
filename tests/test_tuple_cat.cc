@@ -14,7 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
+<<<<<<< Updated upstream
 #include <sigc++/tuple_cat.h>
+=======
+#include <sigc/tuple_cat.h>
+>>>>>>> Stashed changes
 #include <utility>
 #include <cstdlib>
 #include <cassert>
