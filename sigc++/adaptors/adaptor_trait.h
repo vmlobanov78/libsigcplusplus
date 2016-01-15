@@ -77,8 +77,6 @@ template <class T_functor> struct adapts;
 template <class T_functor>
 struct adaptor_functor : public adaptor_base
 {
-  typedef typename functor_trait<T_functor>::result_type result_type;
-
   /** Invokes the wrapped functor passing on the arguments.
    * @return The return value of the functor invocation.
    */
@@ -161,7 +159,6 @@ template <class T_functor, bool I_isadaptor = std::is_base_of<adaptor_base, T_fu
 template <class T_functor>
 struct adaptor_trait<T_functor, true>
 {
-  typedef typename T_functor::result_type result_type;
   typedef T_functor functor_type;
   typedef T_functor adaptor_type;
 };
@@ -175,7 +172,6 @@ struct adaptor_trait<T_functor, true>
 template <class T_functor>
 struct adaptor_trait<T_functor, false>
 {
-  typedef typename functor_trait<T_functor>::result_type result_type;
   typedef typename functor_trait<T_functor>::functor_type functor_type;
   typedef adaptor_functor<functor_type> adaptor_type;
 };
@@ -197,9 +193,7 @@ struct adaptor_trait<T_functor, false>
  * template <class T_functor>
  * struct my_adaptor : public sigc::adapts<T_functor>
  * {
- *   typedef typename sigc::functor_trait<T_functor>::result_type result_type;
  *   //
- *   result_type
  *   operator()() const;
  *   //
  *   template <class T_arg1>
@@ -246,7 +240,6 @@ struct adaptor_trait<T_functor, false>
 template <class T_functor>
 struct adapts : public adaptor_base
 {
-  typedef typename adaptor_trait<T_functor>::result_type  result_type;
   typedef typename adaptor_trait<T_functor>::adaptor_type adaptor_type;
 
   /** Constructs an adaptor that wraps the passed functor.

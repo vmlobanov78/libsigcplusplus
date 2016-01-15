@@ -130,7 +130,6 @@ template <class T_functor,
           bool I_can_use_decltype = can_deduce_result_type_with_decltype<T_functor>::value>
 struct functor_trait
 {
-  typedef void result_type;
   typedef T_functor functor_type;
 };
 
@@ -138,14 +137,12 @@ struct functor_trait
 template <class T_functor, bool I_can_use_decltype>
 struct functor_trait<T_functor, true, I_can_use_decltype>
 {
-  typedef typename T_functor::result_type result_type;
   typedef T_functor functor_type;
 };
 
 template <typename T_functor>
 struct functor_trait<T_functor, false, true>
 {
-  typedef typename functor_trait<decltype(&T_functor::operator()), false, false>::result_type result_type;
   typedef T_functor functor_type;
 };
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -164,7 +161,6 @@ struct functor_trait<T_functor, false, true>
 template <class T_functor>                             \
 struct functor_trait<T_functor, false, false>          \
 {                                                      \
-  typedef typename T_functor::result_type result_type; \
   typedef T_functor functor_type;                      \
 };
 
@@ -187,13 +183,11 @@ struct functor_trait<T_functor, false, false>          \
 template <>                                    \
 struct functor_trait<T_functor, false, false>  \
 {                                              \
-  typedef T_return result_type;                \
   typedef T_functor functor_type;              \
 };                                             \
 template <>                                    \
 struct functor_trait<T_functor, false, true>   \
 {                                              \
-  typedef T_return result_type;                \
   typedef T_functor functor_type;              \
 };
 
@@ -222,7 +216,7 @@ struct functor_trait<T_functor, false, true>   \
 #endif // SIGCXX_DISABLE_DEPRECATED
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-// detect the return type and the functor version of non-functor types.
+// detect the the functor version of non-functor types.
 
 template <class T_return, class... T_args>
 class pointer_functor;
@@ -233,7 +227,6 @@ class pointer_functor;
 template <class T_return, class... T_arg>
 struct functor_trait<T_return (*)(T_arg...), false, false>
 {
-  typedef T_return result_type;
   typedef pointer_functor<T_return, T_arg...> functor_type;
 };
 
@@ -246,14 +239,12 @@ template <class T_return, class T_obj, class... T_arg> class const_mem_functor;
 template <class T_return, class T_obj, class... T_arg>
 struct functor_trait<T_return (T_obj::*)(T_arg...), false, false>
 {
-  typedef T_return result_type;
   typedef mem_functor<T_return, T_obj, T_arg...> functor_type;
 };
 
 template <class T_return, class T_obj, class... T_arg>
 struct functor_trait<T_return (T_obj::*)(T_arg...) const, false, false>
 {
-  typedef T_return result_type;
   typedef const_mem_functor<T_return, T_obj, T_arg...> functor_type;
 };
 

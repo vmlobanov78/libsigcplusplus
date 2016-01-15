@@ -44,7 +44,6 @@ struct compose1_functor : public adapts<T_setter>
   typedef typename adapts<T_setter>::adaptor_type adaptor_type;
   typedef T_setter setter_type;
   typedef T_getter getter_type;
-  typedef typename adaptor_type::result_type  result_type;
 
   decltype(auto)
   operator()()
@@ -85,7 +84,6 @@ struct compose2_functor : public adapts<T_setter>
   typedef T_setter setter_type;
   typedef T_getter1 getter1_type;
   typedef T_getter2 getter2_type;
-  typedef typename adaptor_type::result_type  result_type;
 
   decltype(auto)
   operator()()

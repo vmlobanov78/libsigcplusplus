@@ -16,8 +16,6 @@ namespace sigc {
 template <class T_return, class T_functor>
 struct retype_return_functor : public adapts<T_functor>
 {
-  typedef T_return result_type;
-
   T_return operator()();
 
 
@@ -53,8 +51,6 @@ T_return retype_return_functor<T_return, T_functor>::operator()()
 template <class T_functor>
 struct retype_return_functor<void, T_functor> : public adapts<T_functor>
 {
-  typedef void result_type;
-
   void operator()();
 
 

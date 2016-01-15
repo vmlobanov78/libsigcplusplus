@@ -17,8 +17,6 @@ namespace sigc {
 template <class T_return, class T_functor>
 struct bind_return_functor : public adapts<T_functor>
 {
-  typedef typename unwrap_reference<T_return>::type result_type;
-
   /** Invokes the wrapped functor dropping its return value.
    * @return The fixed return value.
    */

@@ -306,7 +306,6 @@ struct slot_iterator_buf
   typedef T_result*                        pointer;
 
   typedef T_emitter                        emitter_type;
-  typedef T_result                         result_type;
   typedef typename T_emitter::slot_type    slot_type;
 
   typedef signal_impl::const_iterator_type iterator_type;
@@ -369,7 +368,7 @@ struct slot_iterator_buf
 private:
   iterator_type i_;
   const emitter_type* c_;
-  mutable result_type r_;
+  mutable T_result r_;
   mutable bool invoked_;
 };
 
@@ -383,7 +382,6 @@ struct slot_iterator_buf<T_emitter, void>
   typedef std::bidirectional_iterator_tag  iterator_category;
 
   typedef T_emitter                        emitter_type;
-  typedef void                             result_type;
   typedef typename T_emitter::slot_type    slot_type;
 
   typedef signal_impl::const_iterator_type iterator_type;
@@ -460,7 +458,6 @@ struct slot_reverse_iterator_buf
   typedef T_result*                        pointer;
 
   typedef T_emitter                        emitter_type;
-  typedef T_result                         result_type;
   typedef typename T_emitter::slot_type    slot_type;
 
   typedef signal_impl::const_iterator_type iterator_type;
@@ -525,7 +522,7 @@ struct slot_reverse_iterator_buf
 private:
   iterator_type i_;
   const emitter_type* c_;
-  mutable result_type r_;
+  mutable T_result r_;
   mutable bool invoked_;
 };
 
@@ -539,7 +536,6 @@ struct slot_reverse_iterator_buf<T_emitter, void>
   typedef std::bidirectional_iterator_tag  iterator_category;
 
   typedef T_emitter                        emitter_type;
-  typedef void                             result_type;
   typedef typename T_emitter::slot_type    slot_type;
 
   typedef signal_impl::const_iterator_type iterator_type;

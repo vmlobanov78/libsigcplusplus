@@ -157,7 +157,6 @@ class slot
   : public slot_base
 {
 public:
-  typedef T_return result_type;
   //TODO: using arg_type_ = type_trait_take_t<T_arg>;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

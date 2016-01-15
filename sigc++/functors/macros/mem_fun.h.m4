@@ -34,7 +34,6 @@ class [$1]mem_functor : public functor_base
 {
 public:
   typedef T_return (T_obj::*function_type)(T_arg...) $3;
-  typedef T_return result_type;
 
   /// Constructs an invalid functor.
   [$1]mem_functor() : func_ptr_(nullptr) {}

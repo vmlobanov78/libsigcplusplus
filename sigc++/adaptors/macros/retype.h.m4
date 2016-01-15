@@ -106,9 +106,8 @@ struct retype_functor
   : public adapts<T_functor>
 {
   typedef typename adapts<T_functor>::adaptor_type adaptor_type;
-  typedef typename adapts<T_functor>::result_type result_type;
 
- template <class... T_arg>
+  template <class... T_arg>
   decltype(auto)
   operator()(T_arg... _A_a)
     { return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<type_trait_take_t<T_type>...>

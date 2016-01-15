@@ -88,9 +88,7 @@ namespace ns1
 template <class T_functor>
 struct MyAdaptor1 : public sigc::adapts<T_functor>
 {
-  typedef typename sigc::functor_trait<T_functor>::result_type result_type;
-
-  result_type
+  decltype(auto)
   operator()() const
   {
     result_stream << "MyAdaptor1()() ";

@@ -56,7 +56,6 @@ class pointer_functor : public functor_base
 protected: 
   function_type func_ptr_;
 public:
-  using result_type = T_return;
 
   /// Constructs an invalid functor.
   pointer_functor() {}
