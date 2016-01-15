@@ -614,11 +614,11 @@ template <class T_return, class T_accumulator, class... T_arg>
 struct signal_emit
 {
   typedef signal_emit<T_return, T_accumulator, T_arg...> self_type;
-  typedef decltype(std::declval<T_accumulator>()(slot_iterator_buf_type(), slot_iterator_buf_type())) result_type;
   typedef slot<T_return, T_arg...> slot_type;
   typedef internal::slot_iterator_buf<self_type, T_return> slot_iterator_buf_type;
   typedef internal::slot_reverse_iterator_buf<self_type, T_return> slot_reverse_iterator_buf_type;
   typedef signal_impl::const_iterator_type iterator_type;
+  typedef decltype(std::declval<T_accumulator>()(slot_iterator_buf_type(), slot_iterator_buf_type())) result_type;
 
   /** Instantiates the class.
    * The parameters are stored in member variables. operator()() passes
