@@ -33,5 +33,6 @@
 /test_tuple_cat
 /test_tuple_cdr
 /test_tuple_end
+/test_tuple_for_each
 /test_tuple_start
 /test_visit_each
