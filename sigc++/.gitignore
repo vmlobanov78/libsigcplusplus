@@ -2,4 +2,3 @@
 /adaptors/bind.h
 /adaptors/retype.h
 /functors/mem_fun.h
-/functors/slot.h
