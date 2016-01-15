@@ -65,13 +65,6 @@ struct nil {};
  * decltype(). That macro is now unneccesary and deprecated.
  */
 
-/** A hint to the compiler.
- * All functors which define @p result_type should publically inherit from this hint.
- *
- * @ingroup sigcfunctors
- */
-struct functor_base {};
-
 /** Helper class, to determine if decltype() can deduce the result type of a functor.
  *
  * @ingroup sigcfunctors
@@ -105,38 +98,21 @@ public:
 
 
 /** Trait that specifies the return type of any type.
- * Template specializations for functors derived from sigc::functor_base,
- * for other functors whose result type can be deduced with decltype(),
+ * Template specializations for functors whose result type can be deduced with decltype(),
  * for function pointers and for class methods are provided.
  *
  * @tparam T_functor Functor type.
- * @tparam I_derives_functor_base Whether @p T_functor inherits from sigc::functor_base.
  * @tparam I_can_use_decltype Whether the result type of @p T_functor can be deduced
  *                            with decltype().
  *
  * @ingroup sigcfunctors
  */
 template <class T_functor,
-          bool I_derives_functor_base = std::is_base_of<functor_base,T_functor>::value,
           bool I_can_use_decltype = can_deduce_result_type_with_decltype<T_functor>::value>
 struct functor_trait
 {
   typedef T_functor functor_type;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-template <class T_functor, bool I_can_use_decltype>
-struct functor_trait<T_functor, true, I_can_use_decltype>
-{
-  typedef T_functor functor_type;
-};
-
-template <typename T_functor>
-struct functor_trait<T_functor, false, true>
-{
-  typedef T_functor functor_type;
-};
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -149,7 +125,7 @@ class pointer_functor;
 //functor ptr fun:
 
 template <class T_return, class... T_arg>
-struct functor_trait<T_return (*)(T_arg...), false, false>
+struct functor_trait<T_return (*)(T_arg...), false>
 {
   typedef pointer_functor<T_return, T_arg...> functor_type;
 };
@@ -161,13 +137,13 @@ template <class T_return, class T_obj, class... T_arg> class mem_functor;
 template <class T_return, class T_obj, class... T_arg> class const_mem_functor;
 
 template <class T_return, class T_obj, class... T_arg>
-struct functor_trait<T_return (T_obj::*)(T_arg...), false, false>
+struct functor_trait<T_return (T_obj::*)(T_arg...), false>
 {
   typedef mem_functor<T_return, T_obj, T_arg...> functor_type;
 };
 
 template <class T_return, class T_obj, class... T_arg>
-struct functor_trait<T_return (T_obj::*)(T_arg...) const, false, false>
+struct functor_trait<T_return (T_obj::*)(T_arg...) const, false>
 {
   typedef const_mem_functor<T_return, T_obj, T_arg...> functor_type;
 };
