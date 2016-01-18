@@ -99,7 +99,7 @@ struct tuple_transform_each_impl
     using element_type = typename std::tuple_element<index, T_current>::type;
 
     auto& from = std::get<index>(t_original);
-    const auto element = T_transformer<element_type>::transform(from);
+    const auto& element = T_transformer<element_type>::transform(from);
     const auto t_element = std::make_tuple(element);
     
     const auto t_start = tuple_start<index>(t);
@@ -131,7 +131,7 @@ struct tuple_transform_each_impl<T_transformer, 0>
     constexpr std::size_t index = 0;
 
     using element_type = typename std::tuple_element<index, T_original>::type;
-    const auto element = T_transformer<element_type>::transform(std::get<index>(t_original));
+    const auto& element = T_transformer<element_type>::transform(std::get<index>(t_original));
     const auto tuple_element = std::make_tuple(element);
     const auto tuple_rest = tuple_cdr(t);
     return std::tuple_cat(tuple_element, tuple_rest);
