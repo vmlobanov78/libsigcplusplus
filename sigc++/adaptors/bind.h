@@ -94,8 +94,7 @@ struct TransformEachInvoker
 {
   //We take T_element as non-const because invoke() is not const.
   static
-  decltype(auto)
-  transform(T_element& element) {
+  auto transform(T_element& element) -> decltype(element.invoke())& {
     return element.invoke();
   }
 };
