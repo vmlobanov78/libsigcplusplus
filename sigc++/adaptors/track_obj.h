@@ -3,7 +3,7 @@
 
 #include <sigc++/adaptors/adaptor_trait.h>
 #include <sigc++/limit_reference.h>
-#include <sigc++/tuple_for_each_const.h>
+#include <sigc++/tuple_for_each.h>
 
 namespace sigc {
 
@@ -111,7 +111,7 @@ struct visitor<track_obj_functor<T_functor, T_obj...>>
 
     //Call sigc::visit_each(_A_action, element) on each element in the 
     //_A_target.obj_ tuple:
-    sigc::tuple_for_each_const<TrackObjVisitForEach>(_A_target.obj_, _A_action);
+    sigc::tuple_for_each<TrackObjVisitForEach>(_A_target.obj_, _A_action);
   }
 
 private:

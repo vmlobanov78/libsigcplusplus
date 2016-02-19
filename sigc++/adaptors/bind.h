@@ -6,7 +6,7 @@
 #include <sigc++/tuple_start.h>
 #include <sigc++/tuple_end.h>
 #include <sigc++/tuple_transform_each.h>
-#include <sigc++/tuple_for_each_const.h>
+#include <sigc++/tuple_for_each.h>
 
 //TODO: See comment in functor_trait.h.
 #if defined(nil) && defined(SIGC_PRAGMA_PUSH_POP_MACRO)
@@ -268,7 +268,7 @@ struct visitor<bind_functor<-1, T_functor, T_type...> >
   {
     sigc::visit_each(_A_action, _A_target.functor_);
 
-    sigc::tuple_for_each_const<TupleVisitorVisitEach>(_A_target.bound_, _A_action);
+    sigc::tuple_for_each<TupleVisitorVisitEach>(_A_target.bound_, _A_action);
   }
 };
 #endif //DOXYGEN_SHOULD_SKIP_THIS
