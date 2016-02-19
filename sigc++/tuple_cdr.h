@@ -1,56 +1,68 @@
-#ifndef _SIGC_TUPLE_CDR_H_
-#define _SIGC_TUPLE_CDR_H_
+/* Copyright (C) 2016 Murray Cumming
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/
+ */
+
+#ifndef MURRAYC_TUPLE_UTILS_TUPLE_CDR_H
+#define MURRAYC_TUPLE_UTILS_TUPLE_CDR_H
 
 #include <tuple>
-#include <utility>
 #include <type_traits>
+#include <utility>
 
-namespace sigc
-{
-
-namespace {
-
-template<typename T, typename Seq>
-struct tuple_type_cdr_impl;
-
-template<typename T, std::size_t I0, std::size_t... I>
-struct tuple_type_cdr_impl<T, std::index_sequence<I0, I...>>
-{
-  using type = std::tuple<typename std::tuple_element<I, T>::type...>;
-};
-
-} //anonymous namespace
+namespace tupleutils {
 
 /**
  * Get the type of a tuple without the first item.
  */
-template<typename T>
-struct tuple_type_cdr
-: tuple_type_cdr_impl<T, std::make_index_sequence<std::tuple_size<T>::value>>
-{};
+template <typename T>
+struct tuple_type_cdr; // primary template is not defined
 
+// Partial specialization for tuples of at least one element:
+template <typename H, typename... T>
+struct tuple_type_cdr<std::tuple<H, T...>>
+{
+  using type = std::tuple<T...>;
+};
 
-namespace {
+namespace detail {
 
-template<typename T, std::size_t I0, std::size_t... I>
-decltype(auto) tuple_cdr_impl(const T& t, std::index_sequence<I0, I...>) {
-  return std::make_tuple(std::get<I>(t)...);
+template <typename T, std::size_t... I>
+decltype(auto)
+tuple_cdr_impl(T&& t, std::index_sequence<0, I...>)
+{
+  using cdr = typename tuple_type_cdr<std::decay_t<T>>::type;
+  return cdr(std::get<I>(std::forward<T>(t))...);
 }
 
-} //anonymous namespace
+} // detail namespace
 
 /**
  * Get the a tuple without the first item.
  * This is analogous to std::tuple_cat().
  */
-template<typename T>
-decltype(auto) tuple_cdr(const T& t) {
-  constexpr auto size = std::tuple_size<T>::value;
-  const auto seq = std::make_index_sequence<size>{};
-  return tuple_cdr_impl(t, seq);
+template <typename T>
+decltype(auto)
+tuple_cdr(T&& t) {
+  //We use std::decay_t<> because tuple_size is not defined for references.
+  constexpr auto size = std::tuple_size<std::decay_t<T>>::value;
+
+  static_assert(size != 0, "tuple size must be non-zero");
+  using seq = std::make_index_sequence<size>;
+  return detail::tuple_cdr_impl(std::forward<T>(t), seq{});
 }
 
+} // namespace tupleutils
 
-} //namespace sigc
-
-#endif //_SIGC_TUPLE_CDR_H_
+#endif //MURRAYC_TUPLE_UTILS_TUPLE_CDR_H

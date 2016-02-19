@@ -14,19 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-<<<<<<< Updated upstream
-#include <sigc++/tuple_cat.h>
-=======
-#include <sigc/tuple_cat.h>
->>>>>>> Stashed changes
-#include <utility>
-#include <cstdlib>
 #include <cassert>
+#include <cstdlib>
+#include <tuple-utils/tuple_cat.h>
+#include <utility>
+//#include <functional>
 
-void test_tuple_type_cat() {
+void
+test_tuple_type_cat() {
   using type_tuple_is = std::tuple<int, short>;
   using type_tuple_dc = std::tuple<double, char>;
-  using type_tuple_cat = sigc::tuple_type_cat<type_tuple_is, type_tuple_dc>::type;
+  using type_tuple_cat =
+    tupleutils::tuple_type_cat<type_tuple_is, type_tuple_dc>::type;
   using type_tuple_expected = std::tuple<int, short, double, char>;
 
   static_assert(std::tuple_size<type_tuple_cat>::value == 4,
@@ -35,9 +34,38 @@ void test_tuple_type_cat() {
     "unexpected tuple_cat()ed tuple type");
 }
 
-int main() {
+/** We don't want to test std::tuple_cat() here,
+ * but this a demonstration that std::ref() works with std::tuple_cat().
+void
+test_tuple_cat_stdref() {
+  std::string a = "yadda1";
+  std::string b = "yaddayadda1";
+  auto t_one =
+    std::make_tuple(std::ref(a), std::ref(b));
+  int c = 2;
+  char d = 'a';
+  auto t_two =
+    std::make_tuple(std::ref(c), std::ref(d));
+  auto t_both = std::tuple_cat(t_one, t_two);
+  a = "hello";
+  b = "world";
+  c = 3;
+  d = 'b';
+
+  assert(std::get<0>(t_both) == "hello");
+  assert(std::get<1>(t_both) == "world");
+  assert(std::get<2>(t_both) == 3);
+  assert(std::get<3>(t_both) == 'b');
+}
+*/
+
+int
+main() {
   test_tuple_type_cat();
-  //There is no typeutils::tuple_cat() because std::tuple_cat() exists: test_tuple_cat();
+  // There is no typeutils::tuple_cat() because std::tuple_cat() exists:
+  // test_tuple_cat();
+
+  //test_tuple_cat_stdref();
 
   return EXIT_SUCCESS;
 }
