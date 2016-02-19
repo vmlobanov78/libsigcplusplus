@@ -20,7 +20,7 @@
 #include <tuple>
 #include <utility>
 
-namespace tupleutils {
+namespace sigc {
 
 namespace detail {
 
@@ -75,6 +75,6 @@ decltype(auto) // typename tuple_type_end<T, len>::type
     std::forward<T>(t));
 }
 
-} // namespace tupleutils;
+} // namespace sigc;
 
 #endif //MURRAYC_TUPLE_UTILS_TUPLE_START_H

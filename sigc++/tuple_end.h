@@ -17,9 +17,9 @@
 #ifndef MURRAYC_TUPLE_UTILS_TUPLE_END_H
 #define MURRAYC_TUPLE_UTILS_TUPLE_END_H
 
-#include <tuple-utils/tuple_cdr.h>
+#include <sigc++/tuple_cdr.h>
 
-namespace tupleutils {
+namespace sigc {
 
 namespace detail {
 
@@ -88,6 +88,6 @@ decltype(auto) // typename tuple_type_end<T, len>::type
   return detail::tuple_end_impl<T, size_start>::tuple_end(std::forward<T>(t));
 }
 
-} // namespace tupleutils;
+} // namespace sigc;
 
 #endif //MURRAYC_TUPLE_UTILS_TUPLE_END_H

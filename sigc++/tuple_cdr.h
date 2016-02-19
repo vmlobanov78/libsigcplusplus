@@ -21,7 +21,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace tupleutils {
+namespace sigc {
 
 /**
  * Get the type of a tuple without the first item.
@@ -63,6 +63,6 @@ tuple_cdr(T&& t) {
   return detail::tuple_cdr_impl(std::forward<T>(t), seq{});
 }
 
-} // namespace tupleutils
+} // namespace sigc
 
 #endif //MURRAYC_TUPLE_UTILS_TUPLE_CDR_H
