@@ -54,7 +54,7 @@ sigc_public_h =				\
 	tuple_cat.h \
 	tuple_cdr.h \
 	tuple_end.h \
-	tuple_for_each_const.h \
+	tuple_for_each.h \
 	tuple_start.h \
 	tuple_transform_each.h \
 	type_traits.h			\
