@@ -17,13 +17,13 @@
 #ifndef MURRAYC_TUPLE_UTILS_TUPLE_TRANSFORM_EACH_H
 #define MURRAYC_TUPLE_UTILS_TUPLE_TRANSFORM_EACH_H
 
-#include <tuple-utils/tuple_cat.h>
-#include <tuple-utils/tuple_cdr.h>
-#include <tuple-utils/tuple_end.h>
-#include <tuple-utils/tuple_start.h>
+#include <sigc++/tuple_cat.h>
+#include <sigc++/tuple_cdr.h>
+#include <sigc++/tuple_end.h>
+#include <sigc++/tuple_start.h>
 #include <type_traits>
 
-namespace tupleutils {
+namespace sigc {
 
 namespace detail {
 
@@ -150,6 +150,6 @@ tuple_transform_each(T&& t) {
     size - 1>::tuple_transform_each(std::forward<T>(t), t);
 }
 
-} // namespace tupleutils
+} // namespace sigc
 
 #endif //MURRAYC_TUPLE_UTILS_TUPLE_TRANSFORM_EACH_H

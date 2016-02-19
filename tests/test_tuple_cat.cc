@@ -16,7 +16,7 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <tuple-utils/tuple_cat.h>
+#include <sigc++/tuple_cat.h>
 #include <utility>
 //#include <functional>
 
@@ -25,7 +25,7 @@ test_tuple_type_cat() {
   using type_tuple_is = std::tuple<int, short>;
   using type_tuple_dc = std::tuple<double, char>;
   using type_tuple_cat =
-    tupleutils::tuple_type_cat<type_tuple_is, type_tuple_dc>::type;
+    sigc::tuple_type_cat<type_tuple_is, type_tuple_dc>::type;
   using type_tuple_expected = std::tuple<int, short, double, char>;
 
   static_assert(std::tuple_size<type_tuple_cat>::value == 4,

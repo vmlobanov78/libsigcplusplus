@@ -21,7 +21,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace tupleutils {
+namespace sigc {
 
 namespace detail {
 
@@ -49,6 +49,6 @@ struct tuple_type_cat
 // There is no tuple_cat() here because std::tuple_cat() exists already in
 // the C++ standard library.
 
-} // namespace tupleutils
+} // namespace sigc
 
 #endif //MURRAYC_TUPLE_UTILS_TUPLE_CAT_H

@@ -16,7 +16,7 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <tuple-utils/tuple_for_each.h>
+#include <sigc++/tuple_for_each.h>
 #include <utility>
 //#include <typeinfo>
 #include <iostream>
@@ -34,12 +34,12 @@ void
 test_tuple_for_each_same_types() {
   {
     auto t_original = std::make_tuple(1, 2, 3);
-    tupleutils::tuple_for_each<for_each_simple>(t_original);
+    sigc::tuple_for_each<for_each_simple>(t_original);
   }
 
   {
     auto t_original = std::make_tuple(1, (double)2.1f, 3);
-    tupleutils::tuple_for_each<for_each_simple>(t_original);
+    sigc::tuple_for_each<for_each_simple>(t_original);
   }
 }
 
@@ -57,7 +57,7 @@ void
 test_tuple_for_each_same_types_with_extras() {
   {
     auto t_original = std::make_tuple(1, (double)2.1f, 3);
-    tupleutils::tuple_for_each<for_each_simple_with_extras>(
+    sigc::tuple_for_each<for_each_simple_with_extras>(
       t_original, 89, "eightynine");
   }
 }
@@ -77,7 +77,7 @@ test_tuple_for_each_same_types_with_nonconst_extras() {
     auto t_original = std::make_tuple(1, (double)2.1f, 3);
     int extra = 0;
 
-    tupleutils::tuple_for_each<for_each_simple_with_nonconst_extras>(t_original, extra);
+    sigc::tuple_for_each<for_each_simple_with_nonconst_extras>(t_original, extra);
     // std::cout << "extra: " << extra << std::endl;
     assert(extra == 6);
   }
@@ -125,7 +125,7 @@ public:
 void
 test_tuple_for_each_multiple_types() {
   auto t_original = std::make_tuple(1, (double)2.1f, std::string("3"));
-  tupleutils::tuple_for_each<visitor_with_specializations>(t_original);
+  sigc::tuple_for_each<visitor_with_specializations>(t_original);
 }
 
 template <class T_element_from>
@@ -141,7 +141,7 @@ public:
 void
 test_tuple_for_each_nonconst() {
   auto t = std::make_tuple(1, 2, 3);
-  tupleutils::tuple_for_each<for_each_nonconst, decltype(t)&>(t);
+  sigc::tuple_for_each<for_each_nonconst, decltype(t)&>(t);
   std::cout << std::get<0>(t) << std::endl;
   assert(std::get<0>(t) == 2);
   assert(std::get<1>(t) == 4);
