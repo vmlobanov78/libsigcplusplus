@@ -14,46 +14,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/
  */
 
-#ifndef _SIGC_TUPLE_UTILS_TUPLE_CAT_H_
-#define _SIGC_TUPLE_UTILS_TUPLE_CAT_H_
+#ifndef MURRAYC_TUPLE_UTILS_TUPLE_CAT_H
+#define MURRAYC_TUPLE_UTILS_TUPLE_CAT_H
 
 #include <tuple>
-#include <utility>
 #include <type_traits>
+#include <utility>
 
-namespace sigc
-{
+namespace tupleutils {
 
-namespace {
+namespace detail {
 
-template<typename T1, typename T2, typename Seq1, typename Seq2>
+template <typename T1, typename T2, typename Seq1, typename Seq2>
 struct tuple_type_cat_impl;
 
-template<typename T1, typename T2, std::size_t... I1, std::size_t... I2>
-struct tuple_type_cat_impl<T1, T2, std::index_sequence<I1...>, std::index_sequence<I2...>>
-{
-  using type = std::tuple<
-    typename std::tuple_element<I1, T1>::type...,
+template <typename T1, typename T2, std::size_t... I1, std::size_t... I2>
+struct tuple_type_cat_impl<T1, T2, std::index_sequence<I1...>,
+  std::index_sequence<I2...>> {
+  using type = std::tuple<typename std::tuple_element<I1, T1>::type...,
     typename std::tuple_element<I2, T2>::type...>;
 };
 
-} //anonymous namespace
+} // detail namespace
 
 /**
  * Get the type of a tuple without the first item.
  */
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 struct tuple_type_cat
-: tuple_type_cat_impl<T1, T2,
-    std::make_index_sequence<std::tuple_size<T1>::value>,
-    std::make_index_sequence<std::tuple_size<T2>::value>>
-{};
+  : detail::tuple_type_cat_impl<T1, T2,
+      std::make_index_sequence<std::tuple_size<T1>::value>,
+      std::make_index_sequence<std::tuple_size<T2>::value>> {};
 
+// There is no tuple_cat() here because std::tuple_cat() exists already in
+// the C++ standard library.
 
-//There is no tuple_cat() here because std::tuple_cat() exists already in
-//the C++ standard library.
+} // namespace tupleutils
 
-
-} //namespace sigc
-
-#endif //_SIGC_TUPLE_UTILS_TUPLE_CAT_H_
+#endif //MURRAYC_TUPLE_UTILS_TUPLE_CAT_H
