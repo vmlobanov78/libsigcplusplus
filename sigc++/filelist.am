@@ -62,6 +62,7 @@ sigc_public_h =				\
 	adaptors/adaptor_base.h \
 	adaptors/adaptors.h		\
 	adaptors/adaptor_trait.h		\
+	adaptors/bind.h \
 	adaptors/bind_return.h \
 	adaptors/bound_argument.h	\
 	adaptors/compose.h \
