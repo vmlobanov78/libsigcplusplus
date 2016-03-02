@@ -34,7 +34,7 @@ FOR(1, eval($2-1),[
   decltype(auto)
   operator()(LOOP(T_arg%1 _A_arg%1,eval($2-1)))
     { return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<LIST(LOOP([type_trait_pass_t<T_arg%1>], eval($1-1)), type_trait_pass_t<typename unwrap_reference<T_bound>::type>, FOR($1,eval($2-1),[type_trait_pass_t<T_arg%1>,]))>
-        (LIST(LOOP(_A_arg%1,eval($1-1)), bound_.invoke(), FOR($1,eval($2-1),[_A_arg%1,])));
+        (LIST(LOOP(_A_arg%1,eval($1-1)), std::get<0>(bound_).invoke(), FOR($1,eval($2-1),[_A_arg%1,])));
     }
 ])dnl
 ])
@@ -48,8 +48,9 @@ FOR(1, eval($2-1),[
   template <LOOP([class T_arg%1], eval($2-1))>
   decltype(auto)
   operator()(LOOP(T_arg%1 _A_arg%1, eval($2-1)))
-    { return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<LIST(LOOP([type_trait_pass_t<T_arg%1>], eval($2-1)), LOOP(type_trait_pass_t<typename unwrap_reference<T_type%1>::type>, $1))>
-        (LIST(LOOP(_A_arg%1,eval($2-1)), LOOP(bound%1_.invoke(), $1)));
+    {
+    return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<LIST(LOOP([type_trait_pass_t<T_arg%1>], eval($2-1)), LOOP(type_trait_pass_t<typename unwrap_reference<T_type%1>::type>, $1))>
+        (LIST(LOOP(_A_arg%1,eval($2-1)), LOOP(std::get<%1 - 1>(bound_).invoke(), $1)));
     }
 ])
 define([BIND_FUNCTOR_LOCATION],[dnl
@@ -74,7 +75,7 @@ struct bind_functor<$1, T_functor, T_bound, LIST(LOOP(nil, CALL_SIZE - 1))> : pu
   operator()()
   {
     //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-    return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<type_trait_pass_t<typename unwrap_reference<T_bound>::type>> (bound_.invoke());
+    return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<type_trait_pass_t<typename unwrap_reference<T_bound>::type>> (std::get<0>(bound_).invoke());
   }
 
 FOR(eval($1+1),CALL_SIZE,[[BIND_OPERATOR_LOCATION(eval($1+1),%1)]])dnl
@@ -87,7 +88,7 @@ FOR(eval($1+1),CALL_SIZE,[[BIND_OPERATOR_LOCATION(eval($1+1),%1)]])dnl
     {}
 
   /// The argument bound to the functor.
-  bound_argument<T_bound> bound_;
+  std::tuple<bound_argument<T_bound>> bound_;
 };
 ifelse($1,eval(CALL_SIZE-1),[#endif // DOXYGEN_SHOULD_SKIP_THIS
 ],)dnl Include only the first template specialization in the documentation. ($1 = 0..CALL_SIZE-1)
@@ -114,7 +115,7 @@ struct bind_functor<LIST(-1, T_functor, LIST(LOOP(T_type%1, $1), LOOP(nil, CALL_
   operator()()
   {
     //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-    return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<LOOP(type_trait_pass_t<typename unwrap_reference<T_type%1>::type>, $1)> (LOOP(bound%1_.invoke(), $1));
+    return this->functor_.SIGC_WORKAROUND_OPERATOR_PARENTHESES<LOOP(type_trait_pass_t<typename unwrap_reference<T_type%1>::type>, $1)> (LOOP(std::get<%1 - 1>(bound_).invoke(), $1));
   }
 
 FOR(2,eval(CALL_SIZE-$1+1),[[BIND_OPERATOR_COUNT($1,%1)]])dnl
@@ -124,38 +125,12 @@ FOR(1,$1,[
    * @param _A_bound%1 Argument to bind to the functor.])
    */
   bind_functor(type_trait_take_t<T_functor> _A_func, LOOP(type_trait_take_t<T_type%1> _A_bound%1, $1))
-    : adapts<T_functor>(_A_func), LOOP(bound%1_(_A_bound%1), $1)
+    : adapts<T_functor>(_A_func), bound_(LOOP(_A_bound%1, $1))
     {}
 
-  /// The argument bound to the functor.dnl
-FOR(1,$1,[
-  bound_argument<T_type%1> bound%1_;])
+  /// The argument bound to the functor.
+  std::tuple< LOOP(bound_argument<T_type%1>, $1)> bound_;
 };
-
-ifelse($1,1,[#ifndef DOXYGEN_SHOULD_SKIP_THIS
-],)dnl Include only the first template specialization of bind_functor and no
-dnl template specialization of visitor in the documentation. ($1 = 1..CALL_SIZE)
-//template specialization of visitor<>::do_visit_each<>(action, functor):
-/** Performs a functor on each of the targets of a functor.
- * The function overload for sigc::bind_functor performs a functor on the
- * functor and on the object instances stored in the sigc::bind_functor object.
- *
- * @ingroup bind
- */
-template <class T_functor, LOOP(class T_type%1, $1)>
-struct visitor<bind_functor<-1, T_functor, LOOP(T_type%1, $1)> >
-{
-  template <typename T_action>
-  static void do_visit_each(const T_action& _A_action,
-                            const bind_functor<-1, T_functor,  LOOP(T_type%1, $1)>& _A_target)
-  {
-    sigc::visit_each(_A_action, _A_target.functor_);dnl
-FOR(1,$1,[
-    sigc::visit_each(_A_action, _A_target.bound%1_);])
-  }
-};
-ifelse($1,CALL_SIZE,[#endif // DOXYGEN_SHOULD_SKIP_THIS
-],)dnl
 
 ])dnl end BIND_FUNCTOR_COUNT
 
@@ -164,6 +139,8 @@ divert(0)dnl
 _FIREWALL([ADAPTORS_BIND])
 #include <sigc++/adaptors/adaptor_trait.h>
 #include <sigc++/adaptors/bound_argument.h>
+#include <tuple>
+#include <sigc++/tuple_for_each.h>
 
 //TODO: See comment in functor_trait.h.
 #if defined(nil) && defined(SIGC_PRAGMA_PUSH_POP_MACRO)
@@ -296,6 +273,23 @@ struct bind_functor {};
 
 FOR(0,eval(CALL_SIZE-1),[[BIND_FUNCTOR_LOCATION(%1)]])dnl
 
+namespace {
+
+//TODO: Avoid duplication with TrackObjVisitForEach in track_obj.h
+template<typename T_element>
+struct TupleVisitorVisitEach
+{
+  template<typename T_action>
+  static
+  void
+  visit(const T_element& element, const T_action& action)
+  {
+     sigc::visit_each(action, element);
+  }
+};
+
+} //anonymous namespace
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 //template specialization of visitor<>::do_visit_each<>(action, functor):
 /** Performs a functor on each of the targets of a functor.
@@ -304,15 +298,30 @@ FOR(0,eval(CALL_SIZE-1),[[BIND_FUNCTOR_LOCATION(%1)]])dnl
  *
  * @ingroup bind
  */
-template <int T_loc, class T_functor, class T_bound>
-struct visitor<bind_functor<T_loc, T_functor, T_bound> >
+template <int T_loc, class T_functor, class... T_bound>
+struct visitor<bind_functor<T_loc, T_functor, T_bound...> >
 {
   template <class T_action>
   static void do_visit_each(const T_action& _A_action,
-                            const bind_functor<T_loc, T_functor, T_bound>& _A_target)
+                            const bind_functor<T_loc, T_functor, T_bound...>& _A_target)
   {
     sigc::visit_each(_A_action, _A_target.functor_);
-    sigc::visit_each(_A_action, _A_target.bound_);
+
+    sigc::tuple_for_each<TupleVisitorVisitEach>(_A_target.bound_, _A_action);
+  }
+};
+
+//TODO: Do we need this specialization for -1?
+template <class T_functor, class... T_bound>
+struct visitor<bind_functor<-1, T_functor, T_bound...> >
+{
+  template <class T_action>
+  static void do_visit_each(const T_action& _A_action,
+                            const bind_functor<-1, T_functor, T_bound...>& _A_target)
+  {
+    sigc::visit_each(_A_action, _A_target.functor_);
+
+    sigc::tuple_for_each<TupleVisitorVisitEach>(_A_target.bound_, _A_action);
   }
 };
 #endif // DOXYGEN_SHOULD_SKIP_THIS
