@@ -282,7 +282,7 @@ public:
    *  do_something()
    * @endcode
    */
-  operator bool() const noexcept;
+  explicit operator bool() const noexcept;
 
   typedef notifiable::func_destroy_notify func_destroy_notify;
 
