@@ -64,7 +64,7 @@ struct retype_functor
   using adaptor_type = typename adapts<T_functor>::adaptor_type;
   using result_type = typename adapts<T_functor>::result_type;
 
- template <class... T_arg>
+  template <class... T_arg>
   decltype(auto)
   operator()(T_arg... _A_a)
     { return this->functor_.template operator()<type_trait_take_t<T_type>...>
