@@ -1,7 +1,6 @@
-// -*- c++ -*-
-/* Do not edit! -- generated file */
 #ifndef _SIGC_ADAPTORS_RETYPE_H_
 #define _SIGC_ADAPTORS_RETYPE_H_
+
 #include <sigc++/adaptors/adaptor_trait.h>
 #include <sigc++/functors/ptr_fun.h>
 #include <sigc++/functors/mem_fun.h>
