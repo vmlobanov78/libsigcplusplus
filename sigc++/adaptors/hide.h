@@ -2,7 +2,6 @@
 #define _SIGC_ADAPTORS_HIDE_H_
 
 #include <sigc++/adaptors/adaptor_trait.h>
-#include <sigc++/tuple-utils/tuple_cat.h>
 #include <sigc++/tuple-utils/tuple_end.h>
 #include <sigc++/tuple-utils/tuple_start.h>
 
