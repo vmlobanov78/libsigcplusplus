@@ -1,3 +1,8 @@
+libsigc++ has now moved to
+https://github.com/libsigcplusplus/libsigcplusplus
+This git repository at git.gnome.org/browse/libsigcplusplus
+will not be updated.
+
 2.99.10: (unstable)
 
 * slot_base::set_parent(): Create a dummy slot_rep if necessary
