@@ -1,0 +1,2 @@
+RedirectMatch permanent ^/(.*).shtml https://libsigcplusplus.github.io/libsigcplusplus/$1.html
+Redirect permanent / https://libsigcplusplus.github.io/libsigcplusplus/
