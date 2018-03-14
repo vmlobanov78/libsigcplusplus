@@ -1,3 +1,8 @@
+libsigc++ has now moved to
+https://github.com/libsigcplusplus/libsigcplusplus
+This git repository at git.gnome.org/browse/libsigcplusplus
+will not be updated.
+
 libsigc++ -- The Typesafe Callback Framework for C++
 
 
